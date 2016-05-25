@@ -37,4 +37,9 @@ int lock_file_read(int fd);
 int lock_file_write(int fd);
 int unlock_file(int fd);
 
+long get_now_time_of_sec();
+long get_now_time_of_usec();
+
+void nano_sleep(double sleep_time);
+
 #endif /* _SYS_UIL_H_*/

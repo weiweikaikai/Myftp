@@ -542,3 +542,34 @@ int unlock_file(int fd)
 	int flag=fcntl(fd,F_SETLK,&the_lock);
     return flag;
 }
+
+static struct timeval curr_time;
+long get_now_time_of_sec()
+{
+  if(gettimeofday(&curr_time,NULL) < 0)
+	{
+      ERR_EXIT("gettimeofday");
+    }
+	return curr_time.tv_sec;
+}
+long get_now_time_of_usec()
+{
+  	return curr_time.tv_usec;
+}
+
+
+void nano_sleep(double sleep_time)
+{
+    time_t secs = (time_t)sleep_time; //整数部分
+	double fractional = sleep_time -(double)secs; //小数部分
+	struct timespec ts;
+	ts.tv_sec = secs;
+	ts.tv_nsec =(long)(fractional *(double)1000000000);
+     int ret=0;
+	 do
+     {
+		ret =nanosleep(&ts,&ts);
+     }
+     while(ret == -1 && errno == EINTR);
+
+}
